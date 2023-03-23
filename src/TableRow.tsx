@@ -1,6 +1,7 @@
 import { Dog } from "@/types";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
+import { EditandDeleteButtonwithTooltip } from "./EditandDeleteButtonwithTooltip";
 
 interface Props {
   headers: string[];
@@ -23,8 +24,8 @@ export const TableRow = ({ headers, dog, onDeleteHandler }: Props) => {
   const [editing, setEditing] = useState(false);
   const handleEditSubmit = async (dogId: string) => {
     try {
-      const responseBody = { name, breed, age };
-      const res = await fetch(`http://localhost:5678/dogs/${dogId}`, {
+      const responseBody = { dogId, name, breed, age };
+      const res = await fetch(`http://localhost:3000/api/dogs/${dogId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(responseBody),
@@ -42,6 +43,14 @@ export const TableRow = ({ headers, dog, onDeleteHandler }: Props) => {
     }
   };
 
+  function editRowColour(editing: boolean) {
+    if (editing === true) {
+      return "bg-indigo-100";
+    } else {
+      return "hover:bg-gray-100";
+    }
+  }
+
   const [successMessage, setSuccessMessage] = useState<string | undefined>(
     undefined
   );
@@ -51,13 +60,13 @@ export const TableRow = ({ headers, dog, onDeleteHandler }: Props) => {
     if (successMessage) {
       setTimeout(() => {
         setSuccessMessage(undefined);
-      }, 2000);
+      }, 2750);
     }
   }, [successMessage]);
 
   return (
     <tr
-      className="hover:bg-gray-100"
+      className={classNames(editRowColour(editing))}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
     >
@@ -85,49 +94,41 @@ export const TableRow = ({ headers, dog, onDeleteHandler }: Props) => {
         />
       </td>
       {successMessage && !hovered && (
-        <div className="absolute translate-y-1/2 px-4 rounded-full text-center bg-green-500 text-green-500 bg-opacity-10">
+        <td className="absolute translate-x-1/4 translate-y-1/2 px-4 rounded-lg text-center bg-green-500 text-green-700 bg-opacity-10">
           &#x2713; successfully updated
-        </div>
+        </td>
       )}
 
-      {editError && <div> An Error occurred.</div>}
+      {editError && <td> An Error occurred.</td>}
 
-      {hovered && (
-        <td className="absolute flex font-semibold translate-y-1/2 gap-x-4 px-4">
-          <button
-            className="hover:text-red-500"
-            onClick={() => {
-              if (
-                window.confirm("Are you sure you wish to delete this record?")
-              )
-                onDeleteHandler(dog._id);
-            }}
-          >
-            &#10005;
-          </button>
-
-          <button
-            className={classNames("text-base", {
-              "text-green-500": editing,
-              "hover:text-indigo-500": !editing,
-            })}
-            onClick={() => {
-              setEditing(!editing);
-            }}
-          >
-            Edit
-          </button>
-
-          {changesMade && editing && (
+      <td className="absolute flex font-semibold translate-y-1/2 items-center gap-x-4 px-4">
+        {hovered && !editing && (
+          <EditandDeleteButtonwithTooltip
+            editing={editing}
+            onDeleteHandler={onDeleteHandler}
+            dog={dog}
+            setEditing={setEditing}
+          />
+        )}
+        {editing && (
+          <div className="flex gap-x-2 justify-items-center">
             <button
-              className="px-2 rounded-2xl bg-indigo-600 bg-opacity-10 text-indigo-600"
+              className="text-white bg-blue-700 hover:bg-blue-800 disabled:bg-gray-200 disabled:text-slate-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-xs px-2 py-0.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               onClick={() => handleEditSubmit(dog._id)}
+              disabled={!changesMade}
             >
               Submit
             </button>
-          )}
-        </td>
-      )}
+
+            <button
+              className="text-slate-800 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs px-2 py-0.5"
+              onClick={() => setEditing(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+      </td>
     </tr>
   );
 };

@@ -21,7 +21,7 @@ export default function Home() {
     event.preventDefault();
     setFormSubmitting(true);
     const responseBody = { name, breed, age };
-    const res = await fetch("http://localhost:5678/dogs", {
+    const res = await fetch(`/api/dogs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(responseBody),
@@ -32,7 +32,7 @@ export default function Home() {
 
   const onDeleteHandler = async (dogId: string) => {
     setFormSubmitting(true);
-    const res = await fetch(`http://localhost:5678/dogs/${dogId}`, {
+    const res = await fetch(`/api/dogs/${dogId}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
@@ -42,7 +42,7 @@ export default function Home() {
 
   const callApi = useCallback(async () => {
     try {
-      const res = await fetch("http://localhost:5678", { method: "GET" });
+      const res = await fetch("/api/dogs", { method: "GET" });
       const data = await res.json();
       setDogs(data);
       setLoading(false);
@@ -58,7 +58,7 @@ export default function Home() {
   const dogsExist = dogs.length > 0;
 
   return (
-    <div className="flex h-screen p-8 gap-x-12">
+    <div className="flex flex-col w-screen md:flex-row h-screen p-8 gap-x-5">
       {loading && <LoadingSpinner />}
       {dogsExist && (
         <>
