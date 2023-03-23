@@ -25,7 +25,7 @@ export const TableRow = ({ headers, dog, onDeleteHandler }: Props) => {
   const handleEditSubmit = async (dogId: string) => {
     try {
       const responseBody = { dogId, name, breed, age };
-      const res = await fetch(`http://localhost:3000/api/dogs/${dogId}`, {
+      const res = await fetch(`/api/dogs/${dogId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(responseBody),

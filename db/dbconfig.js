@@ -1,11 +1,14 @@
 const mongoose = require("mongoose");
+const { ServerApiVersion } = require("mongodb");
 
-const mongoDB = process.env.REACT_APP_MONGODB;
+const mongoDB =
+  "mongodb+srv://dbadmin:suhdude@dogapp.ivvhrul.mongodb.net/dogApp/?retryWrites=true&w=majorityd";
 
 mongoose
   .connect(mongoDB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    serverApi: ServerApiVersion.v1,
     family: 4,
   })
   .then((db) => console.log("DB is connected"))
