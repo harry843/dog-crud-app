@@ -1,13 +1,10 @@
-import { Inter } from "next/font/google";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import Table from "../src/Table.jsx";
-import LoadingSpinner from "../src/LoadingSpinner";
-import { AddDogForm } from "../src/AddDogForm";
-import { compileFunction } from "vm";
+import Table from "../src/Table/Table.jsx";
+import LoadingSpinner from "../src/img/LoadingSpinner";
+import { AddDogForm } from "../src/AddDogForm/AddDogForm";
 import { Dogs } from "@/types/index.js";
 
-const inter = Inter({ subsets: ["latin"] });
-
+//Define variables to monitor changes in state
 export default function Home() {
   const [dogs, setDogs] = useState<Dogs>([]);
   const [name, setName] = useState("");
@@ -15,8 +12,11 @@ export default function Home() {
   const [age, setAge] = useState<number | undefined>();
   const [loading, setLoading] = useState(true);
   const [formSubmitting, setFormSubmitting] = useState(false);
-  //const [formDeleting, setFormDeleting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<string | undefined>(
+    undefined
+  );
 
+  //Post user selection to database via API
   const onSubmitHandler = async (event: FormEvent) => {
     event.preventDefault();
     setFormSubmitting(true);
@@ -27,9 +27,14 @@ export default function Home() {
       body: JSON.stringify(responseBody),
     });
     const data = await res.json();
+    if (data) {
+      setSubmitMessage("Success");
+    }
+    console.log(data.message);
     setFormSubmitting(false);
   };
 
+  //Delete user selection from database via API
   const onDeleteHandler = async (dogId: string) => {
     setFormSubmitting(true);
     const res = await fetch(`/api/dogs/${dogId}`, {
@@ -40,6 +45,7 @@ export default function Home() {
     console.log("Dog deleted with ID: ", dogId);
   };
 
+  //Retrieve data from database via API
   const callApi = useCallback(async () => {
     try {
       const res = await fetch("/api/dogs", { method: "GET" });
@@ -51,12 +57,14 @@ export default function Home() {
     }
   }, []);
 
+  //Tells app to re-retrieve data from API after making changes to the database
   useEffect(() => {
     callApi();
-  }, [callApi, formSubmitting]);
+  }, [callApi, formSubmitting, submitMessage]);
   const headers = dogs.length > 0 ? Object.keys(dogs[0]).slice(1, -1) : [];
   const dogsExist = dogs.length > 0;
 
+  //HTML to be displayed on the webpage
   return (
     <div className="flex flex-col w-screen md:flex-row h-screen p-8 gap-x-5">
       {loading && <LoadingSpinner />}
@@ -70,6 +78,8 @@ export default function Home() {
             setBreed={setBreed}
             setAge={setAge}
             onSubmitHandler={onSubmitHandler}
+            submitMessage={submitMessage}
+            setSubmitMessage={setSubmitMessage}
           />
           <Table
             headers={headers}

@@ -1,3 +1,4 @@
+//SVG animation for loading spinner when the page loads
 export default function LoadingSpinner() {
     return (
     <div className="flex h-full w-full flex-grow items-center justify-center">

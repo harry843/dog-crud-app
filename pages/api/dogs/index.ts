@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Dog } from "../../../db/dbconfig";
-import { Dogs } from "@/types/index.js";
 
+//Define function to handle different API requests at the table level
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

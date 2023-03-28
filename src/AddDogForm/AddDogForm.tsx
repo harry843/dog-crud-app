@@ -1,5 +1,11 @@
-import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+} from "react";
 
+//Bring in variables created from other components as Props
 interface Props {
   name: string;
   breed: string;
@@ -8,6 +14,8 @@ interface Props {
   setBreed: Dispatch<SetStateAction<string>>;
   setAge: Dispatch<SetStateAction<number | undefined>>;
   onSubmitHandler: (event: FormEvent) => Promise<void>;
+  submitMessage: string | undefined;
+  setSubmitMessage:  Dispatch<SetStateAction<string | undefined>>;
 }
 
 export const AddDogForm = ({
@@ -18,7 +26,20 @@ export const AddDogForm = ({
   setBreed,
   setAge,
   onSubmitHandler,
+  submitMessage,
+  setSubmitMessage,
 }: Props) => {
+
+  //Pop-up message to confirm if form submission was successful
+  useEffect(() => {
+    if (submitMessage) {
+      setTimeout(() => {
+        setSubmitMessage(undefined);
+      }, 2750);
+    }
+  }, [submitMessage, setSubmitMessage]);
+
+  //HTML to be rendered (user input form)
   return (
     <section className="space-y-4 divide-y flex-shrink-0">
       <h1 className="text-lg font-medium">Add your Dog to the collection!</h1>
@@ -28,6 +49,7 @@ export const AddDogForm = ({
           <input
             id="name"
             placeholder="Enter dog name"
+            //Data Validation Properties
             type="text"
             value={name}
             pattern="[a-zA-Z][a-zA-Z -]+"
@@ -44,6 +66,7 @@ export const AddDogForm = ({
           <input
             id="breed"
             placeholder="Enter dog breed"
+            //Data Validation Properties
             type="text"
             value={breed}
             pattern="[a-zA-Z][a-zA-Z -]+"
@@ -60,8 +83,11 @@ export const AddDogForm = ({
           <input
             id="age"
             placeholder="Enter dog age"
+            //Data Validation Properties
             type="number"
             value={age}
+            step="1"
+            min="1"
             required
             onInvalid={() => "You must enter an age."}
             onChange={(event) => setAge(Number(event.target.value))}
@@ -74,6 +100,12 @@ export const AddDogForm = ({
         >
           Submit
         </button>
+        {/* //conditional render of success message if true*/}
+        {submitMessage && (
+          <div className="absolute translate-x-28 -translate-y-10 px-1 rounded-lg text-center bg-green-500 text-green-700 bg-opacity-10">
+            &#x2713; successfully updated
+          </div>
+        )}
       </form>
     </section>
   );

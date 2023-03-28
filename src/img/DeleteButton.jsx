@@ -1,3 +1,4 @@
+//Apply styling to SVG by rendering as a react component
 export default function DeleteButton() {
     return (
 <svg

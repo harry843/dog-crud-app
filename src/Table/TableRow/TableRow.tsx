@@ -3,13 +3,13 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { EditandDeleteButtonwithTooltip } from "./EditandDeleteButtonwithTooltip";
 
+//Retrieve variables defined in other react components via Props
 interface Props {
-  headers: string[];
   dog: Dog;
   onDeleteHandler: (dogId: string) => Promise<void>;
 }
 
-export const TableRow = ({ headers, dog, onDeleteHandler }: Props) => {
+export const TableRow = ({ dog, onDeleteHandler }: Props) => {
   const [name, setName] = useState(dog.name);
   const [breed, setBreed] = useState(dog.breed);
   const [age, setAge] = useState(dog.age);
@@ -22,6 +22,8 @@ export const TableRow = ({ headers, dog, onDeleteHandler }: Props) => {
   const mouseLeave = () => setHovered(false);
 
   const [editing, setEditing] = useState(false);
+
+  //Edit user selected record and update the database via API
   const handleEditSubmit = async (dogId: string) => {
     try {
       const responseBody = { dogId, name, breed, age };
@@ -43,6 +45,7 @@ export const TableRow = ({ headers, dog, onDeleteHandler }: Props) => {
     }
   };
 
+  //Change row colour if user is editing a record
   function editRowColour(editing: boolean) {
     if (editing === true) {
       return "bg-indigo-100";

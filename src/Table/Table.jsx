@@ -1,5 +1,6 @@
-import { TableRow } from "./TableRow";
+import { TableRow } from "./TableRow/TableRow";
 
+//Describe Table to be rendered with data from API
 export default function Table({ headers, dogs, onDeleteHandler }) {
   return (
       <div className="mt-2 flex flex-col">

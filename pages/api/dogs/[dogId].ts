@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Dog } from "../../../db/dbconfig";
+
+//Define function to handle API requests at the Row level (using row id)
 export default async function idHandler(
   req: NextApiRequest,
   res: NextApiResponse

@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const { ServerApiVersion } = require("mongodb");
 
-const mongoDB =
-  "mongodb+srv://dbadmin:suhdude@dogapp.ivvhrul.mongodb.net/dogApp/?retryWrites=true&w=majorityd";
+//Retrieve database connection parameters from .env file
+const mongoDB = process.env.REACT_APP_MONGODB
 
+//Connect to MongoDB via mongoose library
 mongoose
   .connect(mongoDB, {
     useNewUrlParser: true,
@@ -17,6 +18,7 @@ mongoose
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error :"));
 
+//Define Data Model
 const dogSchema = new mongoose.Schema({
   name: String,
   breed: String,
