@@ -1,3 +1,24 @@
+## Welcome
+
+Thank you for visiting! This is my codebase for a personal project to learn the fundamentals of React.js. It is my first attempt using javascript frameworks, and is certainly a world apart from Python.
+
+The aims of this project were to:
+
+- Build a web form to capture, model and store user inputs into a database
+- To communicate with that database via a REST API, which I built from scratch
+- To allow users to retrieve, edit, publish and delete records to the database via the API
+
+The database software which I used was [Mongodb](https://www.mongodb.com/), which I interact with via the Mongoose library. I hosted the server locally, therefore to replicate this project you will need to install [Mongo Compass](https://www.mongodb.com/docs/compass/current/install/). A future goal will be to host this on cloud via [Mongo Atlas](https://www.mongodb.com/cloud/atlas/efficiency?utm_content=rlsapostreg&utm_source=google&utm_campaign=search_gs_pl_evergreen_atlas_general_retarget-brand-postreg_gic-null_emea-all_ps-all_desktop_eng_lead&utm_term=&utm_medium=cpc_paid_search&utm_ad=&utm_ad_campaign_id=14412646473&adgroup=131761130532&cq_cmp=14412646473&gclid=CjwKCAjwoIqhBhAGEiwArXT7K5it6Ts6rtciBjw4tnSCMlpYSXbVj5j6_Uu0rfhvq9JNasubs97O6hoCK8AQAvD_BwE) and deploy via Vercel, however this was not possible in the timeframes.
+
+For learning resources on how to get started building your first REST API, I'd recommend:
+
+- [Mongoose Tutorial](https://www.youtube.com/watch?v=Q1gewixDMYs&t=332s)
+- [Node.js REST API Tutorial](https://www.youtube.com/watch?v=HPo0QhlX5Ao) (all 3 parts)
+- [React Docs](https://legacy.reactjs.org/docs/hooks-intro.html)
+- [Create a React App](https://create-react-app.dev/)
+
+I wish you the best!
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
