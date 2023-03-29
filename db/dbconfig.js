@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { ServerApiVersion } = require("mongodb");
 
 //Retrieve database connection parameters from .env file
-const mongoDB = process.env.REACT_APP_MONGODB
+const mongoDB = process.env.MONGODB_URI
 
 //Connect to MongoDB via mongoose library
 mongoose
